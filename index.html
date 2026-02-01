@@ -15,12 +15,12 @@
             min-height: 100vh;
             background: linear-gradient(116.82deg, #ff9a9e 0%, #fecfef 100%);
             font-family: 'Poppins', sans-serif;
-            overflow: hidden; /* Prevents scrollbars when button moves */
+            overflow: hidden; 
         }
 
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -31,7 +31,7 @@
 
         .gif-container img {
             width: 100%;
-            max-width: 200px;
+            max-width: 250px; /* Made slightly bigger for the memes */
             border-radius: 10px;
             margin-bottom: 20px;
         }
@@ -39,7 +39,7 @@
         h1 {
             color: #ff4d6d;
             font-family: 'Indie Flower', cursive;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 30px;
             line-height: 1.2;
         }
@@ -79,10 +79,9 @@
             background-color: #e74c3c;
             color: white;
             box-shadow: 0 4px 6px rgba(231, 76, 60, 0.3);
-            position: relative; /* Needed for movement logic */
+            position: relative; 
         }
 
-        /* Success Message Styling */
         .hidden {
             display: none;
         }
@@ -105,23 +104,23 @@
         <!-- Initial View -->
         <div id="ask-content">
             <div class="gif-container">
-                <!-- Cute pleading bear GIF -->
-                <img src="https://media.tenor.com/K_c322c3qYcAAAAi/cute-bear.gif" alt="Cute Bear">
+                <!-- FUNNY START: Awkward cat with flower -->
+                <img src="https://media.tenor.com/Ef_y-y25qYcAAAAi/cat-flower.gif" alt="Funny Cat Flower">
             </div>
-            <h1>Will you be my Valentine?</h1>
+            <h1>Will you be my Valentine? 🌹😏</h1>
             <div class="buttons">
                 <button id="yesBtn">Yes</button>
                 <button id="noBtn">No</button>
             </div>
         </div>
 
-        <!-- Success View (Hidden by default) -->
+        <!-- Success View -->
         <div id="success-content" class="hidden">
             <div class="gif-container">
-                <!-- Happy jumping bear/cat GIF -->
-                <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Happy Kiss">
+                <!-- FUNNY END: Cat vibing/dancing wildly -->
+                <img src="https://media.tenor.com/bXjXzWVz8EAAAAAi/cat-jam-cat.gif" alt="Cat Vibing">
             </div>
-            <h1 class="success-text">Yayyyyyyy!! ❤️<br>I knew you'd say yes!</h1>
+            <h1 class="success-text">LETS GOOOOOOO!! 🤪<br>Best choice ever! 🕺💃</h1>
         </div>
     </div>
 
@@ -131,66 +130,52 @@
         const askContent = document.getElementById('ask-content');
         const successContent = document.getElementById('success-content');
 
-        // Texts to cycle through on the "No" button to make it funny
+        // Funny guilt-trip texts
         const noTexts = [
             "No", 
-            "Are you sure?", 
-            "Really sure?", 
-            "Think again!", 
-            "Last chance!", 
-            "Surely not?", 
-            "You might regret this!", 
-            "Give it another thought!",
-            "Are you absolutely certain?",
-            "This could be a mistake!",
-            "Have a heart!",
-            "Don't be so cold!",
-            "Change of heart?",
-            "Wouldn't you reconsider?",
-            "Is that your final answer?",
-            "You're breaking my heart ;(",
+            "Are you sure? 🤨", 
+            "Really sure? 🥺", 
+            "Bruh...", 
+            "Don't do this!", 
+            "I'm gonna cry...", 
+            "You're breaking my heart!", 
+            "I'll give you chocolate!",
+            "I'll give you pizza!",
+            "Pleaseeeee?",
+            "Last chance!",
+            "Okay now you're just mean",
         ];
 
         let yesScale = 1;
         let noCount = 0;
 
-        // Function to move the "No" button
         function moveNoButton() {
-            // Get window dimensions
             const maxWidth = window.innerWidth - noBtn.offsetWidth;
             const maxHeight = window.innerHeight - noBtn.offsetHeight;
 
-            // Calculate random positions
-            const randomX = Math.floor(Math.random() * (maxWidth - 100)); // Buffer
+            const randomX = Math.floor(Math.random() * (maxWidth - 100)); 
             const randomY = Math.floor(Math.random() * (maxHeight - 100));
 
-            // Set the position to absolute to allow free movement
-            noBtn.style.position = 'fixed'; // Using fixed ensures it moves relative to screen
+            noBtn.style.position = 'fixed'; 
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
 
-            // Increase the size of the "Yes" button
             yesScale += 0.4;
             yesBtn.style.transform = `scale(${yesScale})`;
 
-            // Change the text on the "No" button
             noBtn.innerText = noTexts[Math.min(noCount, noTexts.length - 1)];
             noCount++;
         }
 
-        // Logic for clicking "Yes"
         yesBtn.addEventListener('click', () => {
             askContent.classList.add('hidden');
             successContent.classList.remove('hidden');
-            
-            // Optional: Reset styles just in case
             document.body.style.overflow = 'auto';
         });
 
-        // Events for "No" button (Mouseover for desktop, click/touch for mobile)
         noBtn.addEventListener('mouseover', moveNoButton);
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevent clicking on mobile
+            e.preventDefault(); 
             moveNoButton();
         });
         noBtn.addEventListener('click', (e) => {
