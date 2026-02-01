@@ -16,6 +16,7 @@
             background: linear-gradient(116.82deg, #ff9a9e 0%, #fecfef 100%);
             font-family: 'Poppins', sans-serif;
             overflow: hidden; 
+            position: relative; /* Needed for absolute positioning of stickers */
         }
 
         .container {
@@ -27,11 +28,12 @@
             max-width: 90%;
             width: 400px;
             position: relative;
+            z-index: 10; /* Keeps the main box on top of stickers */
         }
 
         .gif-container img {
             width: 100%;
-            max-width: 250px; /* Made slightly bigger for the memes */
+            max-width: 250px; 
             border-radius: 10px;
             margin-bottom: 20px;
         }
@@ -96,9 +98,53 @@
             0% { transform: scale(0); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
+
+        /* --- STICKER STYLES --- */
+        .sticker {
+            position: absolute;
+            width: 120px; /* Default size */
+            pointer-events: none; /* Allows you to click through them */
+            z-index: 1; /* Behind the main box */
+        }
+
+        /* Mobile adjustment for stickers */
+        @media (max-width: 600px) {
+            .sticker {
+                width: 80px;
+            }
+        }
+
+        /* Specific positions */
+        .top-left { top: 20px; left: 20px; transform: rotate(-15deg); animation: float 3s ease-in-out infinite; }
+        .bottom-right { bottom: 20px; right: 20px; transform: rotate(10deg); animation: float 4s ease-in-out infinite; }
+        .top-right { top: 20px; right: 20px; transform: rotate(15deg); animation: float 3.5s ease-in-out infinite; }
+        .bottom-left { bottom: 20px; left: 20px; transform: rotate(-10deg); animation: float 4.5s ease-in-out infinite; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- STICKERS FOR START PAGE -->
+    <div id="ask-stickers">
+        <!-- Cute spinning heart top left -->
+        <img class="sticker top-left" src="https://media.tenor.com/bChpZ0FkZ0UAAAAi/tkthao219-bubududu.gif" alt="Cute Bears">
+        <!-- Nervous sweating meme bottom right -->
+        <img class="sticker bottom-right" src="https://media.tenor.com/V3q5S8k7ywoAAAAi/nervous-sweating.gif" alt="Nervous">
+    </div>
+
+    <!-- STICKERS FOR SUCCESS PAGE (Initially Hidden) -->
+    <div id="success-stickers" class="hidden">
+        <!-- Confetti top right -->
+        <img class="sticker top-right" src="https://media.tenor.com/FawYo00tFW8AAAAi/party-blob.gif" alt="Party Blob">
+        <!-- Dancing dog bottom left -->
+        <img class="sticker bottom-left" src="https://media.tenor.com/n67h_sFqS0MAAAAi/funny-dog-dance.gif" alt="Dancing Dog">
+    </div>
 
     <div class="container">
         <!-- Initial View -->
@@ -129,8 +175,11 @@
         const noBtn = document.getElementById('noBtn');
         const askContent = document.getElementById('ask-content');
         const successContent = document.getElementById('success-content');
+        
+        // Sticker containers
+        const askStickers = document.getElementById('ask-stickers');
+        const successStickers = document.getElementById('success-stickers');
 
-        // Funny guilt-trip texts
         const noTexts = [
             "No", 
             "Are you sure? 🤨", 
@@ -168,8 +217,14 @@
         }
 
         yesBtn.addEventListener('click', () => {
+            // Hide ask content and stickers
             askContent.classList.add('hidden');
+            askStickers.classList.add('hidden');
+            
+            // Show success content and stickers
             successContent.classList.remove('hidden');
+            successStickers.classList.remove('hidden');
+            
             document.body.style.overflow = 'auto';
         });
 
